@@ -13,7 +13,8 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/personal-website",
+            "outputPath": "dist",
+            "baseHref": "/vinsonzheng499.github.io/",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
