@@ -2,6 +2,12 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
 
+## Pushing to GitHub Pages
+
+ng build --configuration=production --base-href /vinsonzheng499.github.io/
+
+Then take everything inside of the directory inside of dist that has index.html, delete everything else, and then push
+
 ## Development server
 
 To start a local development server, run:
