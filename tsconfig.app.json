@@ -4,6 +4,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
+<<<<<<< HEAD
     "types": [
       "node"
     ]
@@ -12,6 +13,12 @@
     "src/main.ts",
     "src/main.server.ts",
     "src/server.ts"
+=======
+    "types": []
+  },
+  "files": [
+    "src/main.ts"
+>>>>>>> 68036fd (initial commit)
   ],
   "include": [
     "src/**/*.d.ts"
