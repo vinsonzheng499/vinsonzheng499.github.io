@@ -1,1 +1,65 @@
-<p>chat works!</p>
+<div class="chat-container">
+  <div class="chat-messages" #chatMessages>
+    <!-- Welcome message shown only if there are no messages yet -->
+    <div *ngIf="messages.length === 0" class="welcome-container">
+      <h1>Ask me anything about Vinson</h1>
+      <p>Enter a question to learn about my background, experience, projects, or interests</p>
+      
+      <div class="example-queries">
+        <div class="query-pill" (click)="useExampleQuery('What technologies does Vinson work with?')">
+          What technologies does Vinson work with?
+        </div>
+        <div class="query-pill" (click)="useExampleQuery('Tell me about Vinson\'s background')">
+          Tell me about Vinson's background
+        </div>
+        <div class="query-pill" (click)="useExampleQuery('What projects has Vinson worked on?')">
+          What projects has Vinson worked on?
+        </div>
+      </div>
+    </div>
+    
+    <!-- Conversation history -->
+    <div *ngFor="let message of messages" class="message-container">
+      <div class="message-header">
+        <strong>{{ message.sender === 'user' ? 'You' : 'Vinson AI' }}</strong>
+      </div>
+      <div class="message-body" [innerHTML]="message.content"></div>
+    </div>
+    
+    <!-- Loading indicator shown below the last message -->
+    <div *ngIf="isLoading" class="message-container bot-message">
+      <div class="message-header">
+        <strong>Vinson AI</strong>
+      </div>
+      <div class="message-body">
+        <div class="loading-indicator">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Fixed input at the bottom -->
+  <div class="chat-input-container">
+    <form (ngSubmit)="sendMessage()" class="chat-form">
+      <div class="input-group">
+        <input 
+          type="text" 
+          [(ngModel)]="userInput" 
+          name="userInput" 
+          placeholder="Ask anything about Vinson..." 
+          [disabled]="isLoading"
+          autocomplete="off"
+          #messageInput
+        >
+        <button type="submit" [disabled]="!userInput || isLoading" class="send-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+          </svg>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
