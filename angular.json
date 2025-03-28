@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/personal-website",
-            "baseHref": "/vinsonzheng499.github.io/",
+            "baseHref": "/",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -22,7 +22,8 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/404.html"
             ],
             "styles": [
               "src/styles.css"
@@ -77,7 +78,8 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/404.html"
             ],
             "styles": [
               "src/styles.css"
