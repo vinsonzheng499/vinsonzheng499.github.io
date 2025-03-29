@@ -1,5 +1,6 @@
-# PersonalWebsite
-
+# Personal Website UI
+This UI will be written using Angular since I need to learn that for my internship.
+ 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
 
 ## Pushing to GitHub Pages
