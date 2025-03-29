@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild, AfterViewChecked, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ChatService } from '../services/chat.service';
 
 interface ChatMessage {
   content: string;
@@ -22,9 +23,22 @@ export class ChatComponent implements OnInit, AfterViewChecked {
   messages: ChatMessage[] = [];
   userInput: string = '';
   isLoading: boolean = false;
+  apiAvailable: boolean = false;
+  
+  constructor(private chatService: ChatService) {}
   
   ngOnInit() {
-    // No initial message - we'll show welcome screen instead
+    // Check if API is available
+    this.chatService.ping().subscribe({
+      next: (response) => {
+        console.log('API connection successful:', response);
+        this.apiAvailable = true;
+      },
+      error: (error) => {
+        console.error('API connection failed:', error);
+        this.apiAvailable = false;
+      }
+    });
   }
   
   ngAfterViewChecked() {
@@ -53,12 +67,26 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     // Show loading state
     this.isLoading = true;
     
-    // Simulate API call to backend
-    // Will be replaced with actual backend call when ready
-    setTimeout(() => {
-      this.handleResponse(query);
-      this.isLoading = false;
-    }, 1500);
+    if (this.apiAvailable) {
+      // Send the message to the Spring Boot API
+      this.chatService.sendMessage(query).subscribe({
+        next: (response) => {
+          this.addBotMessage(response.response);
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error sending message:', error);
+          this.addBotMessage('Sorry, there was an error communicating with the server.');
+          this.isLoading = false;
+        }
+      });
+    } else {
+      // Fallback to the local implementation if API is not available
+      setTimeout(() => {
+        this.handleLocalResponse(query);
+        this.isLoading = false;
+      }, 1000);
+    }
     
     // Focus the input field after sending
     setTimeout(() => {
@@ -82,8 +110,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     });
   }
   
-  private handleResponse(query: string): void {
-    // This is a temporary stub that will be replaced by actual backend API call
+  private handleLocalResponse(query: string): void {
+    // This is a fallback when the API is not available
     const lowerQuery = query.toLowerCase();
     
     if (lowerQuery.includes('background') || lowerQuery.includes('about')) {
@@ -106,7 +134,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 * Other: RESTful APIs, Git, CI/CD`);
     }
     else {
-      this.addBotMessage(`I don't have specific information about that yet. Once the backend is implemented, I'll be able to provide more detailed answers from Vinson's knowledge base.`);
+      this.addBotMessage(`I don't have specific information about that yet. Once the backend is fully implemented, I'll be able to provide more detailed answers from Vinson's knowledge base.`);
     }
   }
 }
